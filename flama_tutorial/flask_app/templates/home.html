@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Bienvenido a NutriRest</title>
+    <style>
+        body {
+            font-family: Courier New, monospace;
+            background-color: #f4f4f4;
+            padding-top: 10%;
+            background-image: url('static/images/background5.png'); /* Añade aquí la imagen de fondo */
+            background-size: cover; /* Ajusta la imagen para que cubra todo el fondo */
+            background-repeat: no-repeat; /* Evita que la imagen se repita */
+            background-position: 50% 20%;
+
+        }
+        .welcome-container {
+            text-align: center;
+            margin-top: 10%;
+        }
+
+        .btn {
+            padding: 10px 20px;
+            margin: 10px;
+            border: none;
+            background-color: #87CEFA; /* Verde */
+            color: white;
+            text-decoration: none;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        .btn:hover {
+            background-color: #87CEFA;
+        }
+    </style>
+</head>
+<body>
+    <div class="welcome-container">
+        <h1>Bienvenido a NutriRest</h1>
+        <div>
+            <a href="{{ url_for('index') }}" class="btn">Cliente</a>
+            <a href="{{ url_for('dueno') }}" class="btn">Dueño</a>
+        </div>
+    </div>
+</body>
+</html>

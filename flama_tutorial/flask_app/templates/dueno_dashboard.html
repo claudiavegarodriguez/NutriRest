@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Panel de Control del personal</title>
+    <style>
+        body {
+            font-family: Courier New, monospace;
+            background-color: #f4f4f4;
+            padding-top: 10%;
+            background-image: url('static/images/background5.png'); /* Añade aquí la imagen de fondo */
+            background-size: cover; /* Ajusta la imagen para que cubra todo el fondo */
+            background-repeat: no-repeat; /* Evita que la imagen se repita */
+            background-position: 50% 20%;
+
+        }
+        .dashboard-container {
+            text-align: center;
+            margin-top: 10%;
+        }
+        .btn {
+            padding: 10px 20px;
+            margin: 10px;
+            border: none;
+            background-color: #87CEFA;
+            color: white;
+            text-decoration: none;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        .btn:hover {
+            background-color: #87CEFA;
+        }
+    </style>
+</head>
+<body>
+    <div class="dashboard-container">
+        <h1>Panel de Control del personal</h1>
+        <p>Bienvenido/a, {{ session['user'] }}!</p>
+        <!-- Aquí puedes añadir el formulario para subir el archivo .uvl -->
+        <form method="POST" action="{{ url_for('upload_file') }}" enctype="multipart/form-data">
+            <input type="file" name="file" accept=".uvl" required>
+            <button type="submit" class="btn">Subir Archivo</button>
+        </form>
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                {% for message in messages %}
+                    <p style="color: rgb(118, 228, 250);">{{ message }}</p>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+    </div>
+</body>
+</html>

@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Gracias por su pedido</title>
+    <style>
+        body {
+            font-family: Courier New, monospace;
+            background-color: #f4f4f4;
+            text-align: center;
+            padding-top: 10%;
+            background-image: url('static/images/background5.png'); /* Añade aquí la imagen de fondo */
+            background-size: cover; /* Ajusta la imagen para que cubra todo el fondo */
+            background-repeat: no-repeat; /* Evita que la imagen se repita */
+            background-position: 50% 20%; /* Centra la imagen */
+        }
+    </style>
+</head>
+<body>
+    <h1>Gracias por su pedido</h1>
+    <h2>Su pedido contiene los siguientes ingredientes:</h2>
+    <ul>
+        {% for ingrediente in ingredientes %}
+            <li>{{ ingrediente }}</li>
+        {% endfor %}
+    </ul>
+    <h2>En unos momentos lo tendremos listo.</h2>
+    
+</body>
+</html>

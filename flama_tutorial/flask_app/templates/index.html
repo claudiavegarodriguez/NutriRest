@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Formulario de Selección</title>
+    <style>
+        body {
+            font-family: Courier New, monospace;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            background-image: url('static/images/background5.png'); /* Añade aquí la imagen de fondo */
+            background-size: cover; /* Ajusta la imagen para que cubra todo el fondo */
+            background-repeat: no-repeat; /* Evita que la imagen se repita */
+            background-position: 50% 20%;
+        }
+
+        h1 {
+            text-align: center;
+            padding-top: 20px;
+        }
+        .checkbox-group {
+            display: flex;
+            justify-content: center;
+            flex-direction: column;
+            gap: 10px;
+        }
+        .input-group {
+            display: none;
+        }
+        .small-label {
+            display: none;
+            font-size: 0.8em;
+            color: #555;
+            margin-left: 20px;
+        }
+
+        form {
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            margin-top: 20px;
+        }
+
+        fieldset {
+            margin-bottom: 20px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            background-color: #fafafa;
+        }
+
+        legend {
+            font-weight: bold;
+            padding: 0 10px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 10px;
+            padding-left: 10px;
+        }
+
+        .deep-1 { margin-left: 10px; }
+        .deep-2 { margin-left: 20px; }
+        .deep-3 { margin-left: 30px; }
+        .deep-4 { margin-left: 40px; }
+
+        button[type="submit"] {
+            background-color: #4CAF50; /* Verde */
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            cursor: pointer;
+            border-radius: 4px;
+            margin-top: 20px;
+        }
+
+        button[type="submit"]:hover {
+            background-color: #45a049;
+        }
+
+        .help-button {
+            background: none;
+            border: none;
+            color: #007BFF;
+            cursor: pointer;
+            font-size: 1em;
+            margin-left: 5px;
+            position: relative;
+        }
+
+        .help-button .tooltiptext {
+            visibility: hidden;
+            width: 200px;
+            background-color: #555;
+            color: #fff;
+            text-align: center;
+            border-radius: 5px;
+            padding: 5px 0;
+            position: absolute;
+            z-index: 1;
+            bottom: 125%; /* Posicionar arriba del icono */
+            left: 50%;
+            margin-left: -100px; /* Centrar el tooltip */
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .help-button .tooltiptext::after {
+            content: '';
+            position: absolute;
+            top: 100%; /* Arrow en la parte inferior */
+            left: 50%;
+            margin-left: -5px;
+            border-width: 5px;
+            border-style: solid;
+            border-color: #555 transparent transparent transparent;
+        }
+
+        .help-button:hover .tooltiptext,
+        .help-button:focus .tooltiptext {
+            visibility: visible;
+            opacity: 1;
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <h1>¿Tienes Alguna Preferencia Alimentaria?</h1>
+    <form action="{{ url_for('restricciones') }}" method="post">
+        <div class="checkbox-group">
+            <div>
+                <label>
+                    <input type="checkbox" name="restriccion" value="anemia" onchange="toggleInputLabel(this, 'anemiaLabel')" {% if 'anemia' in restricciones %}checked{% endif %}> Anemia
+                </label>
+                <label id="anemiaLabel" class="small-label" {% if 'anemia' not in restricciones %}style="display:none;"{% endif %}>La anemia es una condición caracterizada por la falta de glóbulos rojos sanos en la sangre, que puede deberse a deficiencias de hierro. Se considera que un alimento tiene un valor alto en hierro si contiene más de 10 mg por cada 100 g de alimento, siendo útil para tratar la anemia ferropénica.</label>
+            </div>
+            <div>
+                <label>
+                    <input type="checkbox" name="restriccion" value="bajo_grasas" {% if 'bajo_grasas' in restricciones %} checked {% endif %} onchange="toggleInput(this, 'bajoGrasasInput', 'bajoGrasasLabel')"> Bajo en Grasas
+                </label>
+                <label id="bajoGrasasLabel" class="small-label" {% if 'bajo_grasas' not in restricciones %} style="display:none;" {% endif %}>Un alimento se considera bajo en grasas cuando al leer su etiquetado, éste no supera los 3 gramos por cada 100 gramos del producto a consumir.</label>
+                <div id="bajoGrasasInput" class="input-group" {% if 'bajo_grasas' not in restricciones %} style="display:none;" {% endif %}>
+                    <input type="number" name="bajo_grasas_value" placeholder="Valor Bajo en Grasas">
+                </div>
+            </div>
+            <div>
+                <label>
+                    <input type="checkbox" name="restriccion" value="vegano" onchange="toggleInputLabel(this, 'veganoLabel')" {% if 'vegano' in restricciones %}checked{% endif %}> Vegano
+                </label>
+                <label id="veganoLabel" class="small-label" {% if 'vegano' not in restricciones %}style="display:none;"{% endif %}>El veganismo es un estilo de vida que excluye el consumo de cualquier producto animal, incluyendo carne, lácteos, huevos y miel, así como productos derivados como cuero y lana, buscando evitar la explotación animal en todas sus formas.</label>
+            </div>
+            <div>
+                <label>
+                    <input type="checkbox" name="restriccion" value="hipertension" onchange="toggleInputLabel(this, 'hipertensionLabel')" {% if 'hipertension' in restricciones %}checked{% endif %}> Bajo en Sal
+                </label>
+                <label id="hipertensionLabel" class="small-label" {% if 'hipertension' not in restricciones %}style="display:none;"{% endif %}>
+                    La hipertensión es la presión arterial elevada, vinculada al consumo excesivo de sal y aumentando el riesgo de problemas cardíacos y accidentes cerebrovasculares. Controlar la sal en la dieta es crucial para prevenir y manejar esta condición, junto con mantener un estilo de vida saludable. Añadir valor de bajo en sal</label>
+            </div>
+            <div>
+                <label>
+                    <input type="checkbox" name="restriccion" value="intolerancia_lactosa" onchange="toggleInputLabel(this, 'intoleranciaLactosaLabel')" {% if 'intolerancia_lactosa' in restricciones %}checked{% endif %}> Intolerancia a la Lactosa
+                </label>
+                <label id="intoleranciaLactosaLabel" class="small-label" {% if 'intolerancia_lactosa' not in restricciones %}style="display:none;"{% endif %}>La lactosa es el azúcar que se encuentra en la leche y los alimentos preparados con leche. Las personas que son intolerantes a la lactosa no pueden digerir estos alimentos, provocándoles malestares estomacales.</label>
+            </div>
+            <div>
+                <label>
+                    <input type="checkbox" name="restriccion" value="vegetariano" onchange="toggleInputLabel(this, 'vegetarianoLabel')" {% if 'vegetariano' in restricciones %}checked{% endif %}> Vegetariano
+                </label>
+                <label id="vegetarianoLabel" class="small-label" {% if 'vegetariano' not in restricciones %}style="display:none;"{% endif %}>Según la Sociedad Vegetariana, los vegetarianos son personas que no consumen productos ni derivados relacionados con la matanza de animales. Sin embargo, muchos vegetarianos sí consumen subproductos que no implican el sacrificio de animales, como huevos, productos lácteos (leche, queso y yogur) y miel.</label>
+            </div>
+            <div>
+                <label>
+                    <input type="checkbox" name="restriccion" value="sin_gluten" onchange="toggleInputLabel(this, 'sinGlutenLabel')" {% if 'sin_gluten' in restricciones %}checked{% endif %}> Celiaquía (Sin Gluten)
+                </label>
+                <label id="sinGlutenLabel" class="small-label" {% if 'sin_gluten' not in restricciones %}style="display:none;"{% endif %}>La enfermedad celíaca es una afección provocada por una reacción inmunitaria al consumir gluten, una proteína presente en alimentos que contienen trigo, cebada o centeno.
+                    En las personas con enfermedad celíaca, ingerir gluten desencadena una respuesta inmunitaria en el intestino delgado.</label>
+            </div>
+            <div>
+                <label>
+                    <input type="checkbox" name="restriccion" value="alto_contenido_proteico" {% if 'alto_contenido_proteico' in restricciones %} checked {% endif %} onchange="toggleInput(this, 'altoContenidoProteicoInput', 'altoContenidoProteicoLabel')"> Alto Contenido Proteico
+                </label>
+                <label id="altoContenidoProteicoLabel" class="small-label" {% if 'alto_contenido_proteico' not in restricciones %} style="display:none;" {% endif %}>Los alimentos que se consideran de alto contenido en proteínas cuando estas superan el 20% de su valor energético. Se suelen incluir carnes magras como pollo, pavo, carne de res magra, pescados y mariscos, así como productos lácteos como yogur griego y queso cottage. También se incluyen alimentos vegetales como tofu, lentejas, garbanzos, quinoa y nueces. Se recomienda insertar un valor por encima de los 10-15 gramos de proteína por cada 100 gramos de producto.</label>
+                <div id="altoContenidoProteicoInput" class="input-group" {% if 'alto_contenido_proteico' not in restricciones %} style="display:none;" {% endif %}>
+                    <input type="number" name="proteinas_value" placeholder="Valor Proteico">
+                </div>
+            </div>
+            <div>
+                <label>
+                    <input type="checkbox" name="restriccion" value="sugars" {% if 'sugars' in restricciones %} checked {% endif %} onchange="toggleInput(this, 'sugarsInput', 'sugarsLabel')"> Azúcares
+                </label>
+                <label id="sugarsLabel" class="small-label" {% if 'sugars' not in restricciones %} style="display:none;" {% endif %}>Los alimentos considerados bajos en azúcares son aquellos que presentan menos de 5 gramos / 100 gramos de producto en sólido y menos de 2.5 gramos / gramos de producto en líquido.</label>
+                <div id="sugarsInput" class="input-group" {% if 'sugars' not in restricciones %} style="display:none;" {% endif %}>
+                    <input type="number" name="sugars_value" placeholder="Valor Azúcares">
+                </div>
+            </div>
+        </div>
+        <button type="submit" class="btn">Filtrar</button>
+        <button type="submit" class="btn">Limpiar Filtro</button>
+        {% if restricciones %}
+            <h2>Restricciones Seleccionadas:</h2>
+            <ul>
+                {% for restriccion in restricciones %}
+                    <li>{{ restriccion | capitalize }}</li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p>No se han seleccionado restricciones.</p>
+        {% endif %}
+    </form>
+    
+
+    <script>
+        function toggleInput(checkbox, inputId, labelId) {
+            var inputGroup = document.getElementById(inputId);
+            var label = document.getElementById(labelId);
+            if (checkbox.checked) {
+                inputGroup.style.display = 'block';
+                label.style.display = 'block';
+            } else {
+                inputGroup.style.display = 'none';
+                label.style.display = 'none';
+            }
+        }
+
+        function toggleInputLabel(checkbox, labelId) {
+            var label = document.getElementById(labelId);
+            if (checkbox.checked) {
+                label.style.display = 'block';
+            } else {
+                label.style.display = 'none';
+            }
+        }
+    </script>
+    <h1>{{ "Customiza tu menú" }}</h1>
+    <form action="{{ url_for('thank_you') }}" method="post">
+        {% macro input_field(child, relation_type, is_abstract, nutrientes_data) %}
+            {% if child.name %}
+                {% if is_abstract %}
+                    <div><strong>{{ child.name }}</strong></div>
+                {% else %}
+                    <div>
+                        {% if relation_type == 'OPTIONAL' %}
+                            <label>
+                                <input type="checkbox" id="{{ child.name }}" name="{{ child.name }}">
+                                {{ child.name }}
+                                <button type="button" class="help-button">
+                                    <i class="fas fa-info-circle"></i>
+                                    {% if nutrientes_data[child.name] %}
+                                        <span class="tooltiptext">
+                                            {{ nutrientes_data[child.name] }}
+                                        </span>
+                                    {% endif %}
+                                </button>
+                            </label>
+                        {% elif relation_type == 'OR' %}
+                            <label>
+                                <input type="checkbox" id="{{ child.name }}" name="{{ child.name }}">
+                                {{ child.name }}
+                                <button type="button" class="help-button">
+                                    <i class="fas fa-info-circle"></i>
+                                    {% if nutrientes_data[child.name] %}
+                                        <span class="tooltiptext">
+                                            {{ nutrientes_data[child.name] }}
+                                        </span>
+                                    {% endif %}
+                                </button>
+                            </label>
+                        {% elif relation_type == 'CARDINAL' %}
+                            <label>
+                                <input type="checkbox" id="{{ child.name }}" name="{{ child.name }}">
+                                {{ child.name }}
+                                <button type="button" class="help-button">
+                                    <i class="fas fa-info-circle"></i>
+                                    {% if nutrientes_data[child.name] %}
+                                        <span class="tooltiptext">
+                                            {{ nutrientes_data[child.name] }}
+                                        </span>
+                                    {% endif %}
+                                </button>
+                            </label>
+                        {% elif relation_type == 'MUX' %}
+                            <label>
+                                <input type="checkbox" id="{{ child.name }}" name="{{ child.name }}">
+                                {{ child.name }}
+                                <button type="button" class="help-button">
+                                    <i class="fas fa-info-circle"></i>
+                                    {% if nutrientes_data[child.name] %}
+                                        <span class="tooltiptext">
+                                            {{ nutrientes_data[child.name] }}
+                                        </span>
+                                    {% endif %}
+                                </button>
+                            </label>
+                        {% elif relation_type == 'XOR' %}
+                            <label>
+                                <input type="radio" id="{{ child.name }}" name="group-{{ child.name }}">
+                                {{ child.name }}
+                                <button type="button" class="help-button">
+                                    <i class="fas fa-info-circle"></i>
+                                    {% if nutrientes_data[child.name] %}
+                                        <span class="tooltiptext">
+                                            {{ nutrientes_data[child.name] }}
+                                        </span>
+                                    {% endif %}
+                                </button>
+                            </label>
+                        {% else %}
+                            {{ child.name }}
+                        {% endif %}
+                    </div>
+                {% endif %}
+            {% endif %}
+        {% endmacro %}
+
+        {% macro show_subtree(feature, deep, nutrientes_data) %}
+            {% if feature.relations %}
+                <fieldset class="deep-{{ deep }}">
+                {% for relation in feature.relations %}
+                    {% for child in relation.children %}
+                        {{ input_field(child, relation.type, child.is_abstract, nutrientes_data) }}
+                        {{ show_subtree(child, deep + 1, nutrientes_data) }}
+                    {% endfor %}
+                {% endfor %}
+                </fieldset>
+            {% endif %}
+        {% endmacro %}
+
+        {{ show_subtree(data.map, 1, data.nutrientes_data) }}
+        
+        <button type="submit">Enviar Pedido</button>
+    </form>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const helpButtons = document.querySelectorAll('.help-button');
+
+            helpButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const tooltip = this.querySelector('.tooltiptext');
+                    if (tooltip) {
+                        tooltip.style.visibility = 'visible';
+                        
+                        setTimeout(() => {
+                            tooltip.style.visibility = 'hidden';
+                        }, 3000);
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
+
+
+
+
+
+<!-- <h1>{{ "Customiza tu menú" }}</h1>
+    <form action="{{ url_for('thank_you') }}" method="post">
+        {% macro input_field(child, relation_type, is_abstract) %}
+            {% if child.name %}
+                {% if is_abstract %}
+                    <div><strong>{{ child.name }}</strong></div>
+                {% else %}
+                    <div>
+                        {% if relation_type == 'OPTIONAL' %}
+                            <label>
+                                <input type="checkbox" id="{{ child.name }}" name="{{ child.name }}">
+                                {{ child.name }}
+                                <button type="button" class="help-button" data-tooltip="Información sobre {{ child.name }}">
+                                    <i class="fas fa-info-circle"></i>
+                                </button>
+                            </label>
+                        {% elif relation_type == 'OR' %}
+                            <label>
+                                <input type="checkbox" id="{{ child.name }}" name="{{ child.name }}">
+                                {{ child.name }}
+                                <button type="button" class="help-button" data-tooltip="Información sobre {{ child.name }}">
+                                    <i class="fas fa-info-circle"></i>
+                                </button>
+                            </label>
+                        {% elif relation_type == 'CARDINAL' %}
+                            <label>
+                                <input type="checkbox" id="{{ child.name }}" name="{{ child.name }}">
+                                {{ child.name }}
+                                <button type="button" class="help-button" data-tooltip="Información sobre {{ child.name }}">
+                                    <i class="fas fa-info-circle"></i>
+                                </button>
+                            </label>
+                        {% elif relation_type == 'MUX' %}
+                            <label>
+                                <input type="checkbox" id="{{ child.name }}" name="{{ child.name }}">
+                                {{ child.name }}
+                                <button type="button" class="help-button" data-tooltip="Información sobre {{ child.name }}">
+                                    <i class="fas fa-info-circle"></i>
+                                </button>
+                            </label>
+                        {% elif relation_type == 'XOR' %}
+                            <label>
+                                <input type="radio" id="{{ child.name }}" name="group-{{ child.name }}">
+                                {{ child.name }}
+                                <button type="button" class="help-button" data-tooltip="Información sobre {{ child.name }}">
+                                    <i class="fas fa-info-circle"></i>
+                                </button>
+                            </label>
+                        {% else %}
+                            {{ child.name }}
+                        {% endif %}
+                    </div>
+                {% endif %}
+            {% endif %}
+        {% endmacro %}
+
+        {% macro show_subtree(feature, deep) %}
+            {% if feature.relations %}
+                <fieldset class="deep-{{ deep }}">
+                {% for relation in feature.relations %}
+                    {% for child in relation.children %}
+                        {{ input_field(child, relation.type, child.is_abstract) }}
+                        {{ show_subtree(child, deep + 1) }}
+                    {% endfor %}
+                {% endfor %}
+                </fieldset>
+            {% endif %}
+        {% endmacro %}
+
+        {{ show_subtree(data.map, 1) }}
+        
+        <button type="submit">Enviar Pedido</button>
+    </form>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const helpButtons = document.querySelectorAll('.help-button');
+
+            helpButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const tooltip = document.createElement('span');
+                    tooltip.className = 'tooltiptext';
+                    tooltip.innerText = this.getAttribute('data-tooltip');
+                    
+                    // Remove any existing tooltips
+                    const existingTooltip = this.querySelector('.tooltiptext');
+                    if (existingTooltip) {
+                        existingTooltip.remove();
+                    }
+
+                    // Append new tooltip
+                    this.appendChild(tooltip);
+                    
+                    // Automatically hide tooltip after 3 seconds
+                    setTimeout(() => {
+                        tooltip.remove();
+                    }, 3000);
+                });
+            });
+        });
+    </script> -->
