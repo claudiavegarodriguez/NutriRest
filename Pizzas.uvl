@@ -1,0 +1,28 @@
+namespace Pizza
+
+features
+	Pizza {abstract true}
+		mandatory
+			Topping
+				or
+					Bacon
+					PolloCorralPlancha
+					TomateSeco
+					Mozzarella
+					Pinya
+					QuesoSinLactosa
+
+			Size
+				alternative
+					Normal
+					Big
+			Dough
+				alternative
+					Neapolitan
+					Sicilian
+					MasaSinGluten
+		optional
+			CheesyCrust
+
+constraints
+	CheesyCrust => Big

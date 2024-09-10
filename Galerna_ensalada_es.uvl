@@ -1,0 +1,65 @@
+features
+	Ensalada {abstract true}
+		mandatory
+			Verduras {abstract true}
+				or
+					LechugaVariada
+					Canonigos
+					Espinacas
+					Rucula
+			Semillas {abstract true}
+				or
+					Cuscus
+					Pasta
+					Quinoa
+			Hortalizas {abstract}
+				or
+					Tomate
+					Pepino
+					Zanahoria
+					Aguacate
+			Frutas {abstract}
+				or
+					Manzana
+					Pinya
+					Platano
+					Kiwi
+			FrutosSecos {abstract}
+				or
+					Pasas
+					PipasCalabazaTostadas
+					PipasGirasol
+					Nueces
+					Datiles
+					Ciruelas
+					TomateSeco
+			Principales {abstract}
+				or
+					Tofu
+					Atun
+					PolloCorralPlancha
+					PolloCorralEspeciado
+					BaconNatural
+					BaconAhumadoTiras
+			Quesos {abstract}
+				or
+					QuesoFresco
+					Mozzarella
+					Emmental
+					Camembert
+					Parmesano
+					QuesoCabra
+			Salsas {abstract}
+				or
+					Vinagreta {abstract}
+						alternative
+							CurryMango
+							Balsamica
+							MielMostaza
+							Basica
+								mandatory
+									Aceite
+									Vinagre
+									Sal
+					SalsaYogurt
+
