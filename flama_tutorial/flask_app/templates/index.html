@@ -201,16 +201,6 @@
         </div>
         <button type="submit" class="btn">Filtrar</button>
         <button type="submit" class="btn">Limpiar Filtro</button>
-        {% if restricciones %}
-            <h2>Restricciones Seleccionadas:</h2>
-            <ul>
-                {% for restriccion in restricciones %}
-                    <li>{{ restriccion | capitalize }}</li>
-                {% endfor %}
-            </ul>
-        {% else %}
-            <p>No se han seleccionado restricciones.</p>
-        {% endif %}
     </form>
     
 
