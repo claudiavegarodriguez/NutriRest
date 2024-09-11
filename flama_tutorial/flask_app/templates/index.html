@@ -19,6 +19,19 @@
             text-align: center;
             padding-top: 20px;
         }
+        .home-button {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            background-color: #4CAF50; /* Verde */
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            cursor: pointer;
+            border-radius: 4px;
+            text-decoration: none;
+            font-size: 14px;
+        }
         .checkbox-group {
             display: flex;
             justify-content: center;
@@ -130,6 +143,10 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
+    <a href="{{ url_for('home') }}" style="position: absolute; top: 10px; left: 10px; text-decoration: none;">
+        <button style="background-color: #4CAF50; color: white; border: none; padding: 10px 20px; border-radius: 5px;">Inicio</button>
+    </a>
+    
     <h1>¿Tienes Alguna Preferencia Alimentaria?</h1>
     <form action="{{ url_for('restricciones') }}" method="post">
         <div class="checkbox-group">
@@ -347,107 +364,3 @@
 </html>
 
 
-
-
-
-<!-- <h1>{{ "Customiza tu menú" }}</h1>
-    <form action="{{ url_for('thank_you') }}" method="post">
-        {% macro input_field(child, relation_type, is_abstract) %}
-            {% if child.name %}
-                {% if is_abstract %}
-                    <div><strong>{{ child.name }}</strong></div>
-                {% else %}
-                    <div>
-                        {% if relation_type == 'OPTIONAL' %}
-                            <label>
-                                <input type="checkbox" id="{{ child.name }}" name="{{ child.name }}">
-                                {{ child.name }}
-                                <button type="button" class="help-button" data-tooltip="Información sobre {{ child.name }}">
-                                    <i class="fas fa-info-circle"></i>
-                                </button>
-                            </label>
-                        {% elif relation_type == 'OR' %}
-                            <label>
-                                <input type="checkbox" id="{{ child.name }}" name="{{ child.name }}">
-                                {{ child.name }}
-                                <button type="button" class="help-button" data-tooltip="Información sobre {{ child.name }}">
-                                    <i class="fas fa-info-circle"></i>
-                                </button>
-                            </label>
-                        {% elif relation_type == 'CARDINAL' %}
-                            <label>
-                                <input type="checkbox" id="{{ child.name }}" name="{{ child.name }}">
-                                {{ child.name }}
-                                <button type="button" class="help-button" data-tooltip="Información sobre {{ child.name }}">
-                                    <i class="fas fa-info-circle"></i>
-                                </button>
-                            </label>
-                        {% elif relation_type == 'MUX' %}
-                            <label>
-                                <input type="checkbox" id="{{ child.name }}" name="{{ child.name }}">
-                                {{ child.name }}
-                                <button type="button" class="help-button" data-tooltip="Información sobre {{ child.name }}">
-                                    <i class="fas fa-info-circle"></i>
-                                </button>
-                            </label>
-                        {% elif relation_type == 'XOR' %}
-                            <label>
-                                <input type="radio" id="{{ child.name }}" name="group-{{ child.name }}">
-                                {{ child.name }}
-                                <button type="button" class="help-button" data-tooltip="Información sobre {{ child.name }}">
-                                    <i class="fas fa-info-circle"></i>
-                                </button>
-                            </label>
-                        {% else %}
-                            {{ child.name }}
-                        {% endif %}
-                    </div>
-                {% endif %}
-            {% endif %}
-        {% endmacro %}
-
-        {% macro show_subtree(feature, deep) %}
-            {% if feature.relations %}
-                <fieldset class="deep-{{ deep }}">
-                {% for relation in feature.relations %}
-                    {% for child in relation.children %}
-                        {{ input_field(child, relation.type, child.is_abstract) }}
-                        {{ show_subtree(child, deep + 1) }}
-                    {% endfor %}
-                {% endfor %}
-                </fieldset>
-            {% endif %}
-        {% endmacro %}
-
-        {{ show_subtree(data.map, 1) }}
-        
-        <button type="submit">Enviar Pedido</button>
-    </form>
-
-    <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            const helpButtons = document.querySelectorAll('.help-button');
-
-            helpButtons.forEach(button => {
-                button.addEventListener('click', function() {
-                    const tooltip = document.createElement('span');
-                    tooltip.className = 'tooltiptext';
-                    tooltip.innerText = this.getAttribute('data-tooltip');
-                    
-                    // Remove any existing tooltips
-                    const existingTooltip = this.querySelector('.tooltiptext');
-                    if (existingTooltip) {
-                        existingTooltip.remove();
-                    }
-
-                    // Append new tooltip
-                    this.appendChild(tooltip);
-                    
-                    // Automatically hide tooltip after 3 seconds
-                    setTimeout(() => {
-                        tooltip.remove();
-                    }, 3000);
-                });
-            });
-        });
-    </script> -->
